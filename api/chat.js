@@ -1,62 +1,42 @@
-export const config = { runtime: 'edge' };
+export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-export default async function handler(req) {
-  if (req.method === 'OPTIONS') {
-    return new Response(null, {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
-      }
-    });
-  }
-
-  if (req.method !== 'POST') {
-    return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405 });
-  }
+  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const apiKey = process.env.OPENROUTER_API_KEY;
-  if (!apiKey) {
-    return new Response(JSON.stringify({ error: 'API key not configured' }), { status: 500 });
-  }
+  if (!apiKey) return res.status(500).json({ error: 'API key not configured: ' + Object.keys(process.env).join(',') });
 
-  const body = await req.json();
-  const { messages, system } = body;
+  const { messages, system } = req.body;
 
-  // Prepend system message for OpenRouter
   const allMessages = [
     { role: 'system', content: system },
     ...messages
   ];
 
-  const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey}`,
-      'HTTP-Referer': 'https://arminio-responde.vercel.app',
-      'X-Title': 'Los Hermanos de Arminio'
-    },
-    body: JSON.stringify({
-      model: 'mistralai/mistral-7b-instruct:free',
-      messages: allMessages,
-      max_tokens: 1000
-    })
-  });
+  try {
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + apiKey,
+        'HTTP-Referer': 'https://arminio-responde.vercel.app',
+        'X-Title': 'Los Hermanos de Arminio'
+      },
+      body: JSON.stringify({
+        model: 'mistralai/mistral-7b-instruct:free',
+        messages: allMessages,
+        max_tokens: 1000
+      })
+    });
 
-  const data = await response.json();
+    const data = await response.json();
+    const reply = data.choices?.[0]?.message?.content || JSON.stringify(data);
+    return res.status(200).json({ content: [{ type: 'text', text: reply }] });
 
-  // Convert OpenRouter response format to Anthropic-like format
-  const reply = data.choices?.[0]?.message?.content || 'No se pudo obtener respuesta.';
-  const converted = {
-    content: [{ type: 'text', text: reply }]
-  };
-
-  return new Response(JSON.stringify(converted), {
-    status: 200,
-    headers: {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*'
-    }
-  });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
 }
