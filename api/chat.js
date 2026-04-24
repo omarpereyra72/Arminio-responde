@@ -16,27 +16,45 @@ export default async function handler(req, res) {
     ...messages
   ];
 
-  try {
-    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + apiKey,
-        'HTTP-Referer': 'https://arminio-responde.vercel.app',
-        'X-Title': 'Los Hermanos de Arminio'
-      },
-      body: JSON.stringify({
-        model: 'google/gemma-3-27b-it:free',
-        messages: allMessages,
-        max_tokens: 1000
-      })
-    });
+  // Try multiple free models in order until one works
+  const models = [
+    'deepseek/deepseek-r1:free',
+    'deepseek/deepseek-chat:free',
+    'meta-llama/llama-3.3-70b-instruct:free',
+    'google/gemma-3-27b-it:free'
+  ];
 
-    const data = await response.json();
-    const reply = data.choices?.[0]?.message?.content || JSON.stringify(data);
-    return res.status(200).json({ content: [{ type: 'text', text: reply }] });
+  let lastError = null;
 
-  } catch (err) {
-    return res.status(500).json({ error: err.message });
+  for (const model of models) {
+    try {
+      const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + apiKey,
+          'HTTP-Referer': 'https://arminio-responde.vercel.app',
+          'X-Title': 'Los Hermanos de Arminio'
+        },
+        body: JSON.stringify({
+          model: model,
+          messages: allMessages,
+          max_tokens: 1000
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.choices?.[0]?.message?.content) {
+        return res.status(200).json({ content: [{ type: 'text', text: data.choices[0].message.content }] });
+      }
+
+      lastError = data.error?.message || 'No content';
+
+    } catch (err) {
+      lastError = err.message;
+    }
   }
+
+  return res.status(500).json({ error: 'All models failed: ' + lastError });
 }
