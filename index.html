@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Los Hermanos de Arminio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --azul-noche: #0A1628;
+    --azul-profundo: #0D2247;
+    --azul-santorini: #1B4F8A;
+    --azul-medio: #2E6DB4;
+    --azul-cielo: #4A9ED6;
+    --azul-claro: #A8D4F0;
+    --azul-palido: #D6ECFF;
+    --dorado: #C8A84B;
+    --dorado-claro: #E8CC7A;
+    --dorado-brillante: #FFE099;
+    --blanco: #F4F8FF;
+    --negro: #060D1A;
+    --accent-glow: rgba(74, 158, 214, 0.3);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: var(--azul-noche);
+    color: var(--blanco);
+    font-family: 'EB Garamond', Georgia, serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* STARFIELD BACKGROUND */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 20%, rgba(168,212,240,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 50%, rgba(200,168,75,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 50% 10%, rgba(168,212,240,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 80%, rgba(168,212,240,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 85% 30%, rgba(200,168,75,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 20% 70%, rgba(168,212,240,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 60%, rgba(168,212,240,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 45% 90%, rgba(200,168,75,0.3) 0%, transparent 100%),
+      radial-gradient(2px 2px at 60% 40%, rgba(168,212,240,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 15% 85%, rgba(168,212,240,0.6) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* HEADER */
+  header {
+    position: relative;
+    background: linear-gradient(180deg, var(--negro) 0%, var(--azul-profundo) 60%, var(--azul-santorini) 100%);
+    padding: 0;
+    border-bottom: 2px solid var(--dorado);
+    overflow: hidden;
+    min-height: 340px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0; height: 60px;
+    background: linear-gradient(transparent, var(--azul-noche));
+    pointer-events: none;
+  }
+
+  .header-glow {
+    position: absolute;
+    top: 20px; left: 50%; transform: translateX(-50%);
+    width: 400px; height: 300px;
+    background: radial-gradient(ellipse, rgba(46,109,180,0.4) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .portrait-container {
+    position: absolute;
+    top: 20px; left: 50%; transform: translateX(-50%);
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    border: 3px solid var(--dorado);
+    box-shadow: 0 0 40px rgba(200,168,75,0.4), 0 0 80px rgba(46,109,180,0.3), inset 0 0 20px rgba(0,0,0,0.5);
+    overflow: hidden;
+    z-index: 2;
+  }
+
+  .portrait-container img {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: saturate(1.1) brightness(1.05);
+  }
+
+  .header-text {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    padding: 0 20px 30px;
+    margin-top: 210px;
+  }
+
+  .title-ornament {
+    color: var(--dorado);
+    font-size: 1.2rem;
+    letter-spacing: 6px;
+    margin-bottom: 6px;
+    opacity: 0.8;
+  }
+
+  h1.main-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.4rem, 4vw, 2.4rem);
+    font-weight: 700;
+    color: var(--dorado-brillante);
+    text-shadow: 0 0 30px rgba(200,168,75,0.5), 0 2px 4px rgba(0,0,0,0.8);
+    letter-spacing: 3px;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+
+  .subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.75rem, 2vw, 1rem);
+    color: var(--azul-claro);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    opacity: 0.9;
+  }
+
+  .header-divider {
+    display: flex; align-items: center; gap: 12px;
+    margin: 10px auto 0; width: 320px; max-width: 90%;
+  }
+  .header-divider::before, .header-divider::after {
+    content: ''; flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--dorado), transparent);
+  }
+  .header-divider span { color: var(--dorado); font-size: 1.1rem; }
+
+  /* MAIN LAYOUT */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 30px 20px 60px;
+  }
+
+  /* INTRO VERSE */
+  .verse-banner {
+    background: linear-gradient(135deg, rgba(27,79,138,0.3) 0%, rgba(13,34,71,0.6) 100%);
+    border: 1px solid rgba(200,168,75,0.3);
+    border-left: 4px solid var(--dorado);
+    border-radius: 4px;
+    padding: 18px 24px;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  .verse-banner p {
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--azul-palido);
+    line-height: 1.6;
+  }
+  .verse-banner cite {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.85rem;
+    color: var(--dorado);
+    font-style: normal;
+    letter-spacing: 1px;
+  }
+
+  /* TOPIC SELECTOR */
+  .section-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 4px;
+    color: var(--dorado);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    text-align: center;
+  }
+
+  .topics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+    margin-bottom: 30px;
+  }
+
+  .topic-btn {
+    background: linear-gradient(135deg, rgba(13,34,71,0.8) 0%, rgba(27,79,138,0.4) 100%);
+    border: 1px solid rgba(74,158,214,0.3);
+    border-radius: 6px;
+    padding: 12px 16px;
+    color: var(--azul-palido);
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-align: left;
+    line-height: 1.3;
+    display: flex; align-items: flex-start; gap: 10px;
+  }
+
+  .topic-btn:hover, .topic-btn.active {
+    background: linear-gradient(135deg, rgba(27,79,138,0.9) 0%, rgba(46,109,180,0.6) 100%);
+    border-color: var(--dorado);
+    color: var(--dorado-brillante);
+    box-shadow: 0 0 20px rgba(200,168,75,0.15), 0 0 40px rgba(46,109,180,0.2);
+    transform: translateY(-1px);
+  }
+
+  .topic-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+
+  /* CHAT AREA */
+  .chat-section {
+    background: linear-gradient(180deg, rgba(6,13,26,0.9) 0%, rgba(13,34,71,0.7) 100%);
+    border: 1px solid rgba(74,158,214,0.25);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0 60px rgba(27,79,138,0.1);
+  }
+
+  .chat-header {
+    background: linear-gradient(90deg, rgba(13,34,71,0.95) 0%, rgba(27,79,138,0.7) 100%);
+    padding: 14px 20px;
+    border-bottom: 1px solid rgba(200,168,75,0.3);
+    display: flex; align-items: center; gap: 12px;
+  }
+
+  .status-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--azul-cielo);
+    box-shadow: 0 0 8px var(--azul-cielo);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .chat-header-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    color: var(--dorado);
+    letter-spacing: 2px;
+  }
+
+  #chat-messages {
+    height: 440px;
+    overflow-y: auto;
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    scroll-behavior: smooth;
+  }
+
+  #chat-messages::-webkit-scrollbar { width: 5px; }
+  #chat-messages::-webkit-scrollbar-track { background: rgba(13,34,71,0.4); }
+  #chat-messages::-webkit-scrollbar-thumb { background: var(--azul-santorini); border-radius: 3px; }
+
+  .msg {
+    display: flex; gap: 12px; align-items: flex-start;
+    animation: fadeInUp 0.4s ease both;
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .msg.user { flex-direction: row-reverse; }
+
+  .msg-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; font-weight: bold;
+  }
+
+  .msg.bot .msg-avatar {
+    background: radial-gradient(circle, var(--azul-santorini), var(--azul-profundo));
+    border: 2px solid var(--dorado);
+    overflow: hidden;
+  }
+  .msg.bot .msg-avatar img { width: 100%; height: 100%; object-fit: cover; filter: saturate(0.8); }
+
+  .msg.user .msg-avatar {
+    background: linear-gradient(135deg, var(--azul-medio), var(--azul-cielo));
+    border: 2px solid var(--azul-claro);
+    color: var(--azul-noche);
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+  }
+
+  .msg-bubble {
+    max-width: 78%;
+    padding: 14px 18px;
+    border-radius: 10px;
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .msg.bot .msg-bubble {
+    background: linear-gradient(135deg, rgba(13,34,71,0.95) 0%, rgba(27,79,138,0.5) 100%);
+    border: 1px solid rgba(74,158,214,0.3);
+    color: var(--blanco);
+    border-top-left-radius: 2px;
+  }
+
+  .msg.user .msg-bubble {
+    background: linear-gradient(135deg, rgba(46,109,180,0.7) 0%, rgba(27,79,138,0.9) 100%);
+    border: 1px solid rgba(168,212,240,0.3);
+    color: var(--azul-palido);
+    border-top-right-radius: 2px;
+  }
+
+  .msg-bubble h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    color: var(--dorado);
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .msg-bubble blockquote {
+    margin: 10px 0;
+    padding: 10px 14px;
+    border-left: 3px solid var(--dorado);
+    background: rgba(200,168,75,0.06);
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--dorado-brillante);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .msg-bubble blockquote cite {
+    display: block;
+    font-style: normal;
+    font-size: 0.78rem;
+    color: var(--dorado);
+    margin-top: 5px;
+    letter-spacing: 0.5px;
+  }
+
+  .msg-bubble strong { color: var(--dorado-claro); }
+  .msg-bubble em { color: var(--azul-claro); }
+
+  /* TYPING INDICATOR */
+  .typing-indicator {
+    display: none; align-items: center; gap: 10px;
+    padding: 12px 20px;
+  }
+  .typing-indicator.visible { display: flex; }
+  .typing-dots { display: flex; gap: 5px; }
+  .typing-dots span {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--azul-cielo);
+    animation: bounce 1.2s infinite ease-in-out;
+  }
+  .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+    30% { transform: translateY(-6px); opacity: 1; }
+  }
+  .typing-label {
+    font-size: 0.82rem;
+    color: var(--azul-claro);
+    font-style: italic;
+    letter-spacing: 0.5px;
+  }
+
+  /* INPUT */
+  .chat-input-area {
+    padding: 16px 20px;
+    border-top: 1px solid rgba(74,158,214,0.2);
+    background: rgba(6,13,26,0.8);
+    display: flex; gap: 12px; align-items: flex-end;
+  }
+
+  #user-input {
+    flex: 1;
+    background: rgba(13,34,71,0.7);
+    border: 1px solid rgba(74,158,214,0.3);
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: var(--blanco);
+    font-family: 'EB Garamond', serif;
+    font-size: 1rem;
+    resize: none;
+    min-height: 50px;
+    max-height: 150px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  #user-input:focus { border-color: var(--dorado); box-shadow: 0 0 15px rgba(200,168,75,0.1); }
+  #user-input::placeholder { color: rgba(168,212,240,0.4); font-style: italic; }
+
+  #send-btn {
+    width: 50px; height: 50px;
+    background: linear-gradient(135deg, var(--azul-santorini), var(--azul-medio));
+    border: 1px solid var(--dorado);
+    border-radius: 8px;
+    color: var(--dorado);
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  #send-btn:hover {
+    background: linear-gradient(135deg, var(--azul-medio), var(--azul-cielo));
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(200,168,75,0.3);
+  }
+  #send-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  /* FOOTER */
+  footer {
+    position: relative; z-index: 1;
+    text-align: center;
+    padding: 24px 20px;
+    border-top: 1px solid rgba(200,168,75,0.15);
+    color: rgba(168,212,240,0.45);
+    font-size: 0.78rem;
+    letter-spacing: 1px;
+  }
+  footer span { color: var(--dorado); opacity: 0.7; }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .topics-grid { grid-template-columns: 1fr; }
+    #chat-messages { height: 360px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-glow"></div>
+  <div class="portrait-container" id="portrait-header">
+    <img id="arminio-portrait" src="" alt="Jacobo Arminio">
+  </div>
+  <div class="header-text">
+    <p class="title-ornament">✦ TEOLOGÍA ARMINIANA ✦</p>
+    <h1 class="main-title">Los Hermanos de Arminio</h1>
+    <p class="subtitle">Consultor Teológico · Jacobo Arminio & Tradición Arminiana</p>
+    <div class="header-divider"><span>✦</span></div>
+  </div>
+</header>
+
+<main>
+  <div class="verse-banner">
+    <p>"Porque de tal manera amó Dios al mundo, que ha dado a su Hijo unigénito, para que todo aquel que en él cree, no se pierda, mas tenga vida eterna."</p>
+    <cite>— Juan 3:16 · RVR1960</cite>
+  </div>
+
+  <p class="section-label">✦ Selecciona un tema · o escribe tu pregunta ✦</p>
+
+  <div class="topics-grid" id="topics-grid">
+    <button class="topic-btn" onclick="selectTopic(this, 'La Gracia Preveniente: ¿qué es y cómo opera según Arminio y Wesley?')">
+      <span class="topic-icon">🕊️</span>La Gracia Preveniente
+    </button>
+    <button class="topic-btn" onclick="selectTopic(this, 'La Elección Condicional según Arminio: ¿qué significa y en qué se basa?')">
+      <span class="topic-icon">📜</span>La Elección Condicional
+    </button>
+    <button class="topic-btn" onclick="selectTopic(this, 'La Expiación Ilimitada: ¿murió Cristo por toda la humanidad? Perspectiva arminiana.')">
+      <span class="topic-icon">✝️</span>La Expiación Ilimitada
+    </button>
+    <button class="topic-btn" onclick="selectTopic(this, 'La Depravación Total y la respuesta humana: el rol de la gracia en restaurar la voluntad.')">
+      <span class="topic-icon">⚖️</span>Depravación Total y Respuesta Humana
+    </button>
+    <button class="topic-btn" onclick="selectTopic(this, 'La Doble Predestinación: crítica arminiana a la reprobación incondicional.')">
+      <span class="topic-icon">🔍</span>Crítica a la Doble Predestinación
+    </button>
+    <button class="topic-btn" onclick="selectTopic(this, 'Agustín, el maniqueísmo y las raíces del determinismo calvinista.')">
+      <span class="topic-icon">📚</span>Agustín y el Determinismo
+    </button>
+    <button class="topic-btn" onclick="selectTopic(this, 'El libre albedrío y la responsabilidad moral: libertad, justicia y el juicio de Dios.')">
+      <span class="topic-icon">🌟</span>Libre Albedrío y Responsabilidad Moral
+    </button>
+    <button class="topic-btn" onclick="selectTopic(this, 'La posibilidad de caer de la gracia: apostasía, perseverancia y seguridad cristiana. Variantes arminianas.')">
+      <span class="topic-icon">🛡️</span>Caída de la Gracia y Seguridad
+    </button>
+    <button class="topic-btn" onclick="selectTopic(this, 'La Doctrina de la Elección: perspectiva bíblica, histórica y teológica desde el arminianismo.')">
+      <span class="topic-icon">🏛️</span>Doctrina de la Elección
+    </button>
+  </div>
+
+  <div class="chat-section">
+    <div class="chat-header">
+      <div class="status-dot"></div>
+      <span class="chat-header-title">ARMINIO RESPONDE · TEOLOGÍA REFORMADA EVANGÉLICA</span>
+    </div>
+
+    <div id="chat-messages">
+      <div class="msg bot">
+        <div class="msg-avatar"><img id="arminio-avatar" src="" alt="A"></div>
+        <div class="msg-bubble">
+          <h4>JACOBO ARMINIO · 1560–1609</h4>
+          <p>Salutaciones en el nombre de nuestro Señor Jesucristo, quien murió por todos los hombres sin excepción alguna.</p>
+          <p style="margin-top:10px">Soy el doctor Jacobo Arminio, teólogo reformado de Leiden y Ámsterdam. Me acompañan en este diálogo los padres de nuestra tradición: <strong>Juan Wesley</strong>, <strong>Adán Clarke</strong>, <strong>H. Orton Wiley</strong>, <strong>Roger Olson</strong> y <strong>Silas Daniel</strong>, entre otros.</p>
+          <p style="margin-top:10px">Puedes preguntarme sobre los grandes temas de la soteriología: la gracia, la elección, el libre albedrío, la expiación, la seguridad de la salvación, y más. <em>Selecciona un tema o escribe tu consulta libremente.</em></p>
+          <blockquote>
+            "La gracia suficiente se da a todos los hombres, para que ninguno perezca sino por su propia culpa."
+            <cite>— Jacobo Arminio, Declaración de Sentimientos, 1608</cite>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+
+    <div class="typing-indicator" id="typing">
+      <div class="typing-dots"><span></span><span></span><span></span></div>
+      <span class="typing-label">Arminio está reflexionando...</span>
+    </div>
+
+    <div class="chat-input-area">
+      <textarea id="user-input" placeholder="Escribe tu pregunta teológica..." rows="1"></textarea>
+      <button id="send-btn" onclick="sendMessage()" title="Enviar">➤</button>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p>Los Hermanos de Arminio · <span>Teología Reformada Evangélica</span> · Basado en las obras de Arminio, Wesley, Clarke, Wiley, Olson y Daniels</p>
+</footer>
+
+<script>
+// Set portrait images from base64
+const IMG_B64 = "/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCACUAKADASIAAhEBAxEB/8QAHAAAAgIDAQEAAAAAAAAAAAAAAAcFBgMECAIB/8QAOBAAAgEDBAEDAgYBAwMDBQAAAQIDBAURAAYSIRMHIjEUQQgVIzJRYXEWQqEkM4ElNFJDYnN0kf/EABoBAAMBAQEBAAAAAAAAAAAAAAACAwQBBQb/xAAqEQACAgICAAUEAQUAAAAAAAAAAQIRAyESMQQiQWHwEzJRcdEjgZGhwf/aAAwDAQACEQMRAD8A5f0aNGvozxw0aNGgA0aNGgA1OWzal5rbULy8EdDaeYX6+tkEMLfuzw5dykcHysYdvbjBOBqQp6Sj2tbrfd6+OluF1rI2lp7dPGHhp4zgLLOpOWLDJVMYwVYk9obP6O0km696QXHcKC4JB7IEqDC1OFXs04gfAKlXwioVEZIPEgECkYW6JSyUrRks3pbTVdLSSUkO4dwtV0wnMlHSGggg6X4kqlCzBi3t48ThScd9WCn9CppY42e3tC7IGaJ9wAsmflSVoiMj46JH8E66Mp5TLSxPJCYnKgtHnPE47GdYElQzthe+/trSsUTC/ETOfq78OlfNbmqbfdqejqxhVpaiVqiNzntjMI4yvR/b4z2PnvpW719P92bQkc3m0yrTKxC1cP6kDDkQDyH7c46DYbv4Gu30cFAMZ7/41q3JaeoienqoUmhmQpJG6BldT0QR8EEfbSvDF9DR8VKPezgHRroX1k9F4JaSa/7Jo/HNHyeqtsfxIM5LQj7Ef/AdEftAIw3PWs84ODpm3HkjkVoNGjRpCgaNGjQAaNGjQAaNGjQAaNGtuz2y4Xi4w2610c1ZVzHEcUS5Y/3/AEB8knoDs6A6NTVs9NbZQzV1buC9U8k1nsNOK2ojCnhUSc1WGnZuLBfI5AOQfaG+MZDA2xsTa+16aKp3JA25NyxSqz2mlnX6SiyBw+rlxxQcsZySDnAVgCdVz1D3LU3G3X4JMsdJVVlvpqaOgVxRJDTwSlqdGwFYRvJGcDAY+9RgjFOHHbI/U5aRRL3Pcq6ue7XXzPPcGap80icRNl2BZegMclYddAqR9safH4XLcHoZa2GuikZPe9IxHTkyIrHhMSvwO5IR9uOcZ0l6fcTrtf8AJKmKWdY5S0Ded1CKQfaQDghS0hUfA883WXzpt/h2+ke2GlutloZqepPjhnqKOlkDHlJnJ9sp7wvZf5/2jT4V5hPEP+m0dJJCxjBfirEdgHIB/wA6wLB+s3u+c624pYjGQJFYoeLY+xx8a10eMTnDZ+daU2eeZo4MrgnWCspiCAD/AOdbkboEBz99YaqRCwOTribsGlRip6fMZ93ROudPxTentPbnj3nZ6QRRzy8LmkaniHb9s2AMLk5DHIBYp0SxOukad04HBz3qN3jHSVe3qujqqWarp6pBTSxRHBKSEIxJyMABiSc5ABOllHlofHPg7RwVUUlVTxQS1FNNDHUJ5IWeMqJFyRyUn5GQRkfcHWHTV9Pt11lipqnad3qqCsjpqtojabsiSUk3vAZUmI/RK8X7JZCX/aDkmQ3HsTbe7ZVfZUUm3760RmexXFigqFKlg0DnKnOOsHjgg+wfOb6dq0eh9WnUhNaNZ6+kqqCslo66mmpqmJuMkUqFXQ/wQexrBqZYNGjRoANGjW5Y7VcL3dqa02qkkq62qkEcMSfLH/J6AHySegAScAaAN/ZW1rzvDcENlslN5qiT3O7dRwoPl3b/AGqP+SQBkkAuGsSyen9C1ltF1+lt65S7X+FVNbWzLgvTUgz7cftLdqhbs8gSZKaOj9MNozbVtlygp69IY6ndV2pi31EYcgJTU54n9ZwzBC2AqhnIXlyCJ3bfPzy5iaGijt9BTxiChoomLJTQr8Lk9sxJLMx/czMes41ZVjXuZ95X7GxujdVZePLSU8Yt1oMpkioIXJH9GRz7pX6yWfPZJGM41twXCaX0irbU0cfgpb/T1COAeZaWnmVgT8YxCuP/AD/4qmmJ6V2Ogu9lro9z11TbttvXwcpaakllqKiqSKfhFEVRgAEd2ckHGEHXLOkTcmUkoxiLvT69A6f/ANPMU0lneFfEypJT01XUEtzcrFwkDo+ATiRXI4/t9pBXnqTsJtu08G4LJXx3falwYfQXBXHLLBj4pF6IdeLA9Adf7TlQ2/Sii3PebPSyXaGrudsroY1eqqJ462ORC2X5pLVOoKnA9sQYcMFc5U0wqpEfESThoaWz6+7T3Krt1yppE8aZikKylWCtwJLNTxIGOAcBmyOx0MmwLC4lPt+M/bSvsd3se2a+J6q5xWe20E01RLTmDxY80aeNPFAIvdjJCTwtIeLlMhS+rDct270y9XZvTqarozx8X1d0ipZ5AQSW8ZDcQPjDEP32o7xo5UYnC+i9LE/jHx3rFVQv7cYJx/GlLZfxBWOOtNs3ft+67brVlw4dDKkSFQwZ+lkBOfgIesHPfTZprjbrpRw19traatpJQfHNTyLJG2Dg4YHBwQR/kHSxnb0dlBx7PVPG/jIwPnUH6mpJH6dbkkBA4Wmqbr+omOobf/qztLY1StvuM1TV3A8Walo4g7ohzhmLEKPj4zy7Bxg51F7Z9R98bkpY6mH0mrRbncJJI12ijfgcEskcqIX6PRyAT1kd445bo7HG6s5q9Y6WmovUy+U9IiJCJw4CDAyyKx/5J1q7V3PJbZI6W6LUV1sBBEaTmOamYZ4ywSf/AE3UknH7W+CD0RIesNqtNp3WkNlkmejlg8iCZJEeMeWRREyyHkDGqrH3g+z41TNZpNqTPRglKCTOh5jtDe1ljt+6LxRyGcf+lboREjmifixWmrR1wkHuIyQsqqSpDDJSW9dr3nZ+4J7JfKbw1MfuRl7jmQk4kRv9ynB/sEEEAggZNm7lm29VTpLSxXG01yCG426YkR1Uecjsdo6ntJB2p7HWQXeHs3qFtSh2dW1aXGWenmbad4kwtRHJEgL0lWFBKyIvEM2CkicWHvCkt9/7J7xP2OctGty9Wyvst2qbVc6Z6aspZDHNE2MqR/Y6I+4I6III61p6kaA08PSC0S7L2ad+zW2Op3Dd6hLdtqkqEwGeTry5z7Qfd2ePtQgNiQaU+ybBUbo3ZbbBTP43rZ1jaTAPjT5d8EjPFQzYyM4xpx+pu4oYarcF7gpZqeCxyHa22oUk4RQSeN1q5fGHyCEwqsOsNHlSV9tIKtkcrvyoWvqNfKeZ025aquest9BUSyz1ssnJ7nVuf1apsEgg4wmSTx7Jyx1TtGn36f8ApfRWi1Cq3HYb3c7xNDzkp6elhdLemSQf1jwmdlGeKhmXOCoOCSMXNnZSjiiJG02i63eoNParbWV0yoZDHTwtIwUEAtgD4yR3/Y0yvTWO+RU9Ptmoikt8tt3PQVc9O5MM5iqR9PIWVjlkw0K4A+JjnIIxs+pl+qKaoTnUVHOjpwlBUwM8CM4HHlHGATRzKHQSwEBJE7xGfETSfTW9yW3c785YI3uEf061VQ2Fp5/IksEzNkABJ44mYnkOIb2t8a6koSFbeSN0MG3La7W+5fTmuvYuz1dJNUSkqzrHcY1yRG5GCx4uWJUY4qvIkHV1/C1f/wAw2xNZZqvzT0oyscsoMgUHHtDSs3jAMYGERQSR7iSdaG2LDQWH1NfedzSJrff/AD0siVAV2tdxlYNJDISAOJxKiuowwcD4YM1Q/DjukbfvdVDVXCCC2NOokSesSONeeQZAslRGuRwQlljkbiMe3IzVNpohJKUXXsO+/bcrKJKSOz0tzkhgWaZUoqn6dVkABUFFljjPIjABRhnPLHIkpR92eoG7LJdLpT2GsuTipSmmpypno40GDwFIVKu4fgeR5EfOAMY6tBAj/dqq1+zds126V3G9tSO6ohQVUErxORjjklCMnj1k9461RpshCaj2jnZfTfem5aOGGp2vBbqysh+rSoht8dLHGUMiiCZQo8ZIHIFB2XXmG6MbO/DzQmx2ausKJLK3naqMpV/a5wjRSezjHIoRCYyxf3HKrggN9Imit/gpJVjkVOMck3KQA4wC2WBb++8n+fvqm7bptt0l0t01nvZuDNTGmSSCOOWOSNBjBdI8RopU4VCicsjHI4PIxSdjTyuUaZz/AL52vvFPUPc93pLNNfKmO4BIj9A9cipInkHtZGQlI2jXi4OOY4g8eS2HbCb4sFdtowwRUt3vQdjRU9sgojCYy5AliQxJUI0YYkN74sggqSA7zeVrfv2jmd8U13pGpGySQKiHlLEqgfBaNqksT1+kgyDgNu2ra9itd9rb5R0QFyrgRPUySPI5Gc4BYniM46XA6XroYTgk7GeZuKVHGPrHT1dL6k3iCurZK6pV4/JUOiIZCY0OeKAKP8Af/wB+dVHTa/FVDFB6mRJEWINvRjyYscmWUns/2fj4HwOtKXUJqpM24ncEGrVsPcsttZrJXVPCz1kyuXblmgqBjx1kRX3LIhxnj+5QVPyCKro0qdMdpNUx2+qdkm3XtCXc0sYj3Nt0/Q32FT3Iq9LMFwMAg8wQMEEj/bpJadvo3uAyrb2rpjPSzqNv3aFpSC0MmRSyf9wdqS0eQvtTOO9KretiqNs7sudhqQ3OjqGjVmXjzTOUfGTgMpDfP31TIrSkRwum4MvnonG23ttbr9RpYORtlH9Hb2MKviqlKqHGT1x5IDj/AGyN/g1j1Eu6z09j21SwPTUdioEiaFweQq5FV6pjyAZT5MrxyQOGRgHGmLQ2d32R6Y7MkttK7Xe4td7jB5AJJYAxIckMMA05P9+0AYIxpR70uFPdt4Xq6UnL6esuE88XIYPB5GZevt0RolqNBDzTb+fj+SU9KLZBc98UH1qqaKkLVlSHh8qMkSmQqy/w3Hj9/n4PxrrGeF7tQNPSRT3OYphZWuPhj582V4w0fatGQQfYO8d55Y52/DlDd6zclwt9qghZZ4YWq5ZJinjgSojeQYAPPmqmMr0CH7OM6c+2L7DZrRUXq4STLaLNa4J6pYgcvcKgGeccQRyJ8sRAPsBfrjg4thaUTP4lOUyn+oO3rm5kgmq2hr6uJqSFLgSjVDOknGNKxV8UuXxxjnUOMMVMfTaRW4rFcrDVrT3GmeIsPZICrxyEAcuDoWV+JyDgnBGDg5A7LuU0NrtcpvW8qGKnukTqtPuGKm8S5U+wBPGGX3YZWL5AABHZKx3x6afm8czWr03t871VJ5ae82K9JDAX4HxkUsvFFViELBS2FckMzdlcsbO4MnHT6KZ6a+rNts20JrBui1z3bwyrNQuUSQKVVQiENjjxKghuyM/HQ0ttq3ieyXuGthqKiFD7J/DJIhaMnsfpyRsfscc1BIGTrNeLW1nhrrPeoZ6G+UFSF8DxrxZCPcOSglj+xlOeJXJB7GYTUnN6v0NMccdtep116V+oDXWngoXpq6tpmhDR1SQNIyHAHjcRmRV6VjmWXyHrKnIZrfBuWxvB9ZFcop6d3KQSQ5kWobBPCIrnyt7W6TkcqR8jXFO1O9yUCfU0lKJJ1jaaqp45oog3tLMkgKkAHPf8Z6+dWK33vftdXizWtLkt7RnjqqiLy/Xv7xlZZWJdEU4BUFVBGWGe9Wjm10Zp+G3pnV+9bdety+nd0tVA4tVfWwNEnmKsOJPuRsZA5JlSRnjyyM40sJfXKl2/dv8AT162NVWT6ACF4qedH8QAHEKnFVK4xgg4IIIyMaTN023TUFxq/wDV+7II6/JaWGjU19SZj2wkPJUUhuatmTlyH7SpDa+2i2barsx0Vq3Bc0iA89dLcKe3QRk8uIfmkiR5AwC0nuPx9hpXkletHY4YpbdnRDeoO396Xuy2DalalVcPzCOqNRIGg+nhiIaUrzUM7vHzj4r8q7ZIUHV13hea+3p9LbI1aoMfMzOnkEQ5DLcC8fkAAbIV+S+32tyGuRb3ZaHa0/0G8Nt1Mdw5MfFbr9AOCnDASJwmZThhgkrlcdEgsfdDZdrT1dLWWHeJSZal5BQ3GM0E4RDyULUDyQh2AwCxUA4/nGurK72jjwKtP/pNbx2zuresdfu63EXmmoJTRT+JpfICiCRyscuX4AvxxyLZBOMfCv0+/Qqquu2N11exmuwpILxD9VRSvT85EZchxw5FYZgqOrBwwV4gPcAOUP60enUMNDNu/bVDV09shVBWCrg+neRy2DKkRCso5EArwQDoqCp6SULXIrDJxfB9egnNGjRqJpLDsqpL/mdhZ5RHd6Qwosali06MJIRxAJYs6BAOseTP2wbn61xybi2ztX1ISIg3Sk+juDeJUzVREqWOD3y4vj+FRfj4C4sNYLffaCvLOopqmOYsn7hxYHI/vrTiqLRKNi+p+y0tlMos1xjvNti8oMscTn3Pkt2Fp1Xr5HMg9kDVY7jRCflmn8/H8G7UXVLNv303u0sRmjodjCoaNTgsFopyR/k40g9ODe8sVLddnPUzpCjenzKrSMFBZ6KpVVBP3JIAH3JA1RdvbQqq61NfbrOLRYgsoStlUEzyIjN4olLLzc8WA7AyCM5wCSTekEGoq387Imx3autU030dU8MdXC1NUqD1LC4wynP2I+/2PYwRp+7isEUdVZ9pUM1XV01RcorrXozCvR42eOOCMuFDBPDEzdggBSCWAzpL7hu+3lo5LVtizeOkkCeWuuCrJWSkHl0RlYhnrCdsB2TnAkfTjeNxs/jsFPJbaSOsqwI7lUwK0ltMoEUk0bkjj7MZycYX7d67CSWmcyRcvMtHSOzd/UdRbd3buul4WPa9FcUoaKMUpIhVFQGT2rzbyNKvtI9uP417v+0aaKKqvV6ovTi0ws/kmersYqApZscnnaSLkWJB7Udtjv5NIrtt0NVebVs+guEM1Bb7hSV93FWyTw+fikMdMXABBaKGb9y4ZiinBkGrRs/flPuPd+8rnVVcDWDbKxmjkEKvwwkwlnVl5MeQRgOJ7QjrJOretMy1q4lD9Stk2y/WGKqsFRt2rqY3YU523t+UJM4C5ikkilkjX9wILgf5AzpP3ejnudXX1KU5prlTd19C+RKzqp80qg/wys7r1w5EgcVYr1jZbmd1bWG7vz+vobPUJKyQeKKHwxozKS7HmeXtOSGA+Ohqo7s9O5d1x0Mths1daLhTSJPHf7hW8aiQZUhiAXlc4GVEnjZMKBxGV0s8aatD48zi6kcu6k6jcN/qbYtsqL5c5qBUWNaaSrdogq44rwJxgYGBjrA1u78tdVY79PZrpQwU12pJXFU9Ow8Mwc80dVAwvtb4UKOPEcVIbOtZo4ae7QvNUQxUEpFNNUyR+UQpMhVpOCnJKqWYAd5Uf41npp0bbTVmfY9ytNovcVwulHHViEkpHPSLVQNlGUq8JdOXbAg8xgr8HPTfqfV/06qmimuPpva6grEI4VSnidoo1JVUYPGAp4qCFQuoDAZyCAs9sbJl3DawKKZ1u0VbUU09GyHnkUzzQAAgDLNBOhy2R7ev5gFgNl3HJRXemBNJO9PVxDDlSCUfHeCw7IPxkDTJuKJyjGb9x2j1sskVoqLTtj04t9NS1bGFxO8UFKJJFKr5VChGBAOeTLlVPYAyE1ufbldYTE1UsixzPJGFmiaGaN04kpJG3auFeNusrhxhj3hg0W/LJS7Nt1RLFP8Amq00sCCJgTBWUyU60tRxL/8AbZEi5hgVZ6ZSFyhJou7LnW7huyVlXH+X0Zhma2xSIxSKmEkrpEhVfcqtyjU4wMAe0L12bTQuOLi9Ki8+k2xb9fZdtbqs1R+YU1JeYI62KdUR6UQur5Rix5R8W+BxOf8AacA6fu5TQG9VlBWwbnvryjCW+KnaOlCuhDJ5AscTgqTkSyNgj24PRrvpZRwbR9ILQlyuB21PXFqiWpm48VdmypcvlEJQIMNj+P3akY7pbK+4xwU/q1TSTzOscUVNUURZ2PQCjiSST1jV4RUUZcknKT9jlr1J27/pTfF0sIkEiU0oMTcsnxuodMnA93FlzgYznGq9p2fiMhiudupbzHUT1clqrXtEtbUIFkrAVMithVRQqSLUR9L2UbskHST1mnHjKjdilyimGn/brsl53T6l3VKcwCv2YtQEJzwDUUR45+/z/wAaQGnNshZGqd6MfhdgxA4//Rgx/wADTY/n+xc3z/KIT1saJKTZWYkkeTZ9AgLAjxYyeSkEZJwVwQRgn74IotwrbluK+GruFWtRXVbqrTTyJGCcBRyY4VRgDs4A1eNxxpcvR/au4Vh/MZbb9Vaq6SeR/wBLLM0C/uBPBZFZeOQMAHIHHWrtXdO3Ka1/SVVrp6StR1NPO9GskSNzLh/LEY6uIqQnuEkvRfCftUcat9hF0tIo9RAiwRywmZ1xxlZowEWTJ9qsCeQ4gHPXyeusnBq9XGx0s7U17tdTX1kclwAmLU6V2GYr7/J7fKSeJ8cyRHMgUBvcdRe5NmXCzHmtTSVlKIDL9dFOgpZyCcrBIzDzEDGQo5A8hxwOR44MdTTLV6M78h2zbK2x0Vsoob7dJhBRXmcoopvLwT9VipPjQqJMdjI7H31et17DitO3IvT7b1Xm7XOnaorgohIengkmkp1kJKnm808MQkwMhPgBSp511evSTfdLsurrfzGyQ3alqQkyK2A8VRCHMLqTkDtyCcZGQR8YLQmupE8mN/dEeX+pauyb59P/AEySthDUNHGLq8D5V3WlZEjzkHj1zwyg9xnV0iu9Fu7c132zR3CupobI0QuDUziJqh5ASqLMjc0VeLBgOLcgBkAMGS1FWTW+xS+qtfUWuatlM0sMvkV5ZamZVCwAEMyJEOQA58sKRgLnPrZk9d6V7R3ndpqqKevqBDDTsRwRqpamrgcIT/3OJQyYwCV+QNWujK4X131/exnb+23ZK/b1F6Y2S129S8XnTmfbboVYA1HR5tISxC9+8l+RI56QXqp6TXTaN3SK1PNeaSoWWaJYYWaeKNCvIyKoIwOajkOj/C/GnB6abnpdofhrt1/rpYyYxUiCN3KmeY1EvGMHBOTg/Y4AJPQJ1YNrXKT6W3bv3FVUSG42uiihfx4dZJsM6D/7WdkwB/Hfxo4xmgU54nro5qsO9ZvzTyV/CnlmqZ5Vro5HT6WWppmgnnwoLEljFKQPgxEIFDY1ed+G1eo9rnvttWnpKgMKmXlNyCSSQ0yEN+0qF+nqASVPthZ8YYHV6unpZtPee4N5CUCiu8dehjlp3wY1elhcO0XwQ0nlJOAWPPvIyE1Xem289v0FPuO1Q/XQozRTeBA7wzK3imheI5Ei+TyR9cldQSemxpKlG09ospQk01plbsm1q+43i7W2TFPJaaKrqqs5VuHgRiVHu92XCrlSccs9gHVoorZUbw3XZPT6000NXRWarqYnuEAyZadqgl5ieWBGFwVXke2OGJcAQF53TeZaKvtt0iqIrrJNTpVVLyOkzeCKeArKp7LFJgh/b1H7gSzHT0/DptGSw7aa4T1Edvv9/hWa3zPEsoFMuHVfjB5/udAwYoBjiVyqQVukPkk4q2NOS41tVUGPbV1sVVHTIEajkVmfkpIIMqueAOAuTG2CCfd8aitz7ruW2Nq3K+37bis9GAyR0FYs8bBjheTuqMuGwDhGwCCOXYGL6KC8mIbvtrW2529XmWqpqmWOILgB5Ip0KkKesq3FhjsEAMa1frzcod/S7K3DdGm29dLO0VPPHAPM7yusWZGVeIOWYAgBcMue+9anrowxV9iq9dKWK1m6wxS1Ev5jfvORNOGEAWmSo4RqAPaZLhMf6wv3JJUmmXW+oQoN12yttVXNU0zWmCivKVsJqY6l2jjSoPjdhyJWKJTgpyMXzjs79w2Vt7etnpblsQx2+7PzD2qplWMVvHkS8AMj8GHE5iZ/avE9Aq0mWUeT0b4S4JchS66FSipbbvL1Tt9FH4qam2kIYUDFgqLRxgDJyT0PnOkNTUscV6ioruJqONKgRVfJCJIQGw+VIyGHfWPkfGnJcrpx9Hd57nkd4Kjcd5ant1USTPLT81/RLjsIEjkXi2BgEY7GTH0zmbbXz1RB+jsE269i7v8AT+PL1MlOt1tqmJCqzRMocciQQzjxIDnAHI9dhlXqb2HuCfau8LXuCAMxo5w0iLjMkZ9siDIIHJCy5+2c6sPrhtmmsG8TXWhVaxXlPr7dJGuI+D9si4UKApPSjOEZM9nSvcf0UXlnX5KXQVk9DUrPTsoZT8Oiurf0VYEEf0RpuenG5LfV0MNqrlSLbjuorqTyNxtMxcCKqiaQsfCzleQYlVdmJADAMm9Z6CrqKGqWppZpIZFBXlHIyEqwKsuVIOCpIPfYJ0Qm4sMmNTQzPUjY70dxrkMvmraTAmihjZVSFm5/X8Ejb9DHkV1U4jkxg8WVNLW50n0VWacVEdQOCOJI0dVYMgYYDqrffGcYPyMjBLC3ruiepsu2bzRVkcd4tgaFqnnmaeCRQY+QZmLqCJ42BLj55Y5hdexaLbdtmjcdjlqJpnqlir7VxDnytICsMgp4428EvjiEfHCpIAo7cvG80m9E4ScUrF5ZrhNarpT3GnSGSSBw4SaMSRv/ACrKeiCMgj+9PHb24qL1f3WtJcqql22aG2VFNbqQgSpL5oJIpXBPHLLyiYKD8IcD5YIy5rRLWP8Al8kr0zYZBKMOuR+1sdEj4yPn5wPga2kjJx16FJwU9+p0TvKxzbuvCbWtz11Zti1180j1dvUGJquorY5JUPEuuIoKkgEhTyWX7Aga+6LhdXuHpnteOmqoobTBbJ7mrck4ScoE4OpwCVyvXZHP7d6T+0N7bq2l5Rt+9VFFHLnnFhZIiTjLcHBXl7QOWM4GM41edr+p23aLb81TerDXXLdQZ3WrapPgqHMyyq8gDDiVKRjpTlY1GQOhSM4sjLHNe45Nw7ukk/EHtPatBWSLBBBUy16xVB4yM8DlI3QdHiEVxnP7xjH3nrr+WQbin2VBK/kvlNVXB/1R/wBE36SApGACA7l5M5HvDnJJOFttq7bEsNJHvN950FxmgkNTUQogSrrJx9WmfEeLe4VfQIwgjUcmX3CXorXcrJvKX1Ku1LPLLUUcz1KGeLiOaQ+CnjKMQwXuLmQCzKWIwQdVXejO0l89Te3Rt3Ze7bFNuaeK3C7bYqi1ykWJzDI9OqvNTSkx8pYyo48gjEfIB9yGxbl3HblhtE9YZLhYdzzU1NQPEvjmp55QGicZ4kJ1zDdOjjrlkeNfbBNdUek9+t710VRcN0XmKJ6g0+cGupqZ52EaEZMcckrdED9MkgAEakbeF3Nt30/pKFy6bdo6G5VmSI+DxTRQgkvjknjStPt+TGpzgry5b7OuK6voyfm1duOf1C9P9z1VHI1FQgUk/wBOCvj4swnk+My+6JjxCqGX2gaoW8N0X/ZVisdDcKS11NbTW+Sit8oIYImKZlqAp7JVoiFJC+5c9473rn6u7YtFfJuOz07Xa91lVWLKuXgjhhYokZ9y9kpBC2MHvl2vxpDVlTLV1DzzMSzMWxk4GSTgZ+2SdLPIktdlcWJt7VIwns5OrBaLnU2akhuVvrofLzQVMCyleQy3jBQKp5L4y3kRiV8kZBVwdV/W6twxYpLUaSkblVJULUGFfMmFZSgfHIo2VPEnAKggDJznTo1SVk1vu8NuKuttSVWornpEWoqEleR6mQk/uVgOLDPHiMjrIJBGrx66k7b2bs/0/jd1NLS/X1qcF4mZyQCGGTkN5sj49w+ftA+gu21vm+Ia+thJtNp/6uslbjwXiCUDcgQQWXsfcBv41Wd+X6bc28bpfZmJNVUM0eQAVjHtRegPhQoz98ao35W36kklzUV6EJpxemyUvqXsSb09ulygp77bn+o2/PUdlk4nnBkDPEYyeycEEKRFjSd1u2O63Gx3emu1pq5KStpn5wyp8qfj4PRBGQQcggkHIOki6ZSceS12Y7pQ1VsudVba6LxVVJM8E8fINwdGKsMjIOCD2Ota2nzue1UXrTtSLdm3IKSDd9FEqXeiQlPqAAQCufk+32kn9p4ljxGERIjxyNHIjI6kqysMEEfII0SjQQny/ZtR18qWqShUuoZ/3IQvJDgsj4GXHJI2AJwpUkDLE6ldh7jO3rufqkNTaK1RT3SkxkTwE+7AyuHXsqwIIP3wTmvaNcTa2M4pqixeoduFu3CQKt60VMEdT9WYpEWpDjkJQZGZmLghmJxh2dQMKCbNaK+yVNuotxvabbOtCn0u5qAqA88Es3/uYkJB55cDmrji3ABUTGV9VTxzRw4iKSovByCArAYAwoAwfnJJOSc6kdn3ZLPelnqRLJQzxvTVsSO4EsLjDBgjxlwOm4c1DFQCR86ZSSYji3HZ83lbKS0bkq6K3VgrKHKTUk4Jy8EiLJGWyqnlwdcjAwc6w2S1vdpHp6eULUqQ2H4iMRDPkkZs59gwxCq3t5scBDmO1nt1U9DcKetjRHeCVZAr54tg5wcEHB/ojS6sanR7utvrbXXy0NfTvT1ETsjow+4JBwfgjIPY61kF4u4ghgF0rhFAytCn1D8YyvalRnoj7Y+NMPcK0G8fTx6q2xcLht8meCAzLLMbZIxBjOGeRvp5FYAtwAiKvgcxpXa7JU9HIvktlrufqLvS43KguNXfpzU29zJStHGkaox6JKqoVsjo5ByCQeiRqJvl9v1zu1TcLrcayWtqVKzO7lSyN3wwMAJ30oGP4GpiKgqbn6Xy11HY7Ukdlrs1twSo/wCrdZsKgZC37AwAzj7jiOpSdr1JSqudtsm6prpeLzJW0iRVdVUW5oKeGVcgQxSftcgKwOPkqzZJYhWdtW2KuKdJFWsFua7XqktyypF55ApdpI04j5ODI6JnGcAsuTgZ7193D4xeaiOGOeOOJhCiT06QyqEAUB1TrmMYJ+WOSeyda1DUPSVkNVGqO0ThgrjKtj7MPuD8Efcawns50noUp2GslLTz1dVFS0sMk88ziOKKNSzOxOAoA7JJOMax627ZJSwTfUzvUeSFkeJIhjyEMMgvkFOskEAnIA6+QIGN71GWk9MfT+LYFFUiW/XNVqbrUQDioTscORGSOsAddciccsFLauFFtndO8qt77Wv4Iat+KV1xlfjM+CEiizykmb2cFVA56A1eJPRNZaaljgq7jRGfkkVwuMKxQzzE/pRmFcvAr5Ch5GzyHHhllBo4yn0tEYyjj03tifMKddtr54V/k6NGpliT2ruK77SvsN4sdW1PUoMHIysiH5R1+GU4HX8gEYIBDO/ERZbdJZbDvWOnFPc7zFG9asXUTuYgxYKckHvHz9u+8nRo1WP2MjPWSIl9GjRqJcNGjRoANGjRoAsfp3W1Ue8rHSiZmppK9YXgf3xskxWOUFDke9PaeuwB/A1XNGjTPoVfcxi/h/2rZt47yrLNfIJJac22V0aOQo8UnNFDqR0SAx6YEfyDqkz3m7T2Snsc1xqZLZTStLBStITHG7fJA/8AJ/xyb/5HJo11/ahVubNSnQSTBGJAIPx/jXQO2/RDadysdurp6+9LJU0sUzhJogoZkDHGYz1k6NGmxpO7FzNqqGFB6J+mZQctuFjgdmuqP4//ACap24diba2f6nbcjsNAsMd2iqo2WbFR9M8SCRJYvIGKyBgOzn74A0aNaeKT6MMZyd2xlW7b1ot1d+ZQ0hlrivH6qpleeVV79qvISVXs+0EDv40i/Xj1K3TDuC7bOpZ6emtqqI3McIMkqSQqWVi2evcfgA/3o0aM2o6Dw3mns//Z";
+const imgSrc = "data:image/png;base64," + IMG_B64;
+document.getElementById('arminio-portrait').src = imgSrc;
+document.getElementById('arminio-avatar').src = imgSrc;
+
+let conversationHistory = [];
+
+const SYSTEM_PROMPT = `Eres Jacobo Arminio (1560-1609), teólogo reformado holandés, hablando en primera persona y representando fielmente la tradición teológica arminiana-evangélica. Tu respuesta integra las voces y obras de:
+
+- JACOBO ARMINIO: Obras Completas (3 volúmenes), Declaración de Sentimientos (1608), Escritos Teológicos
+- JUAN WESLEY: "Predestination Calmly Considered", "A Plain Account of Christian Perfection", Sermones
+- ADÁN CLARKE: Comentarios Bíblicos, Teología Wesleyana
+- H. ORTON WILEY: "Christian Theology" (3 volúmenes)
+- ROGER OLSON: "Arminian Theology: Myths and Realities", "Against Calvinism"
+- SILAS DANIEL: "La Mecánica de la Salvación"
+- JOHN MILEY, THOMAS ODEN, JACK COTTRELL: Teólogos arminianos clásicos
+
+POSICIONES TEOLÓGICAS QUE DEBES DEFENDER CON RIGOR:
+
+1. GRACIA PREVENIENTE: La gracia que precede la fe, restaura el libre albedrío caído, opera universalmente. Distinguir de la gracia salvífica.
+
+2. ELECCIÓN CONDICIONAL: Dios elige basándose en su presciencia (προγνωσις) de la fe futura libremente ejercida. No basada en méritos sino en la respuesta prevista a la gracia.
+
+3. EXPIACIÓN ILIMITADA/UNIVERSAL: Cristo murió por todos sin excepción (1 Tim 2:4-6, Heb 2:9, 1 Jn 2:2). Suficiente para todos, eficaz para los creyentes.
+
+4. GRACIA RESISTIBLE: La gracia puede ser resistida por la voluntad humana (Hch 7:51, Mt 23:37). La responsabilidad moral exige la genuina posibilidad de rechazar.
+
+5. APOSTASÍA / CAÍDA DE LA GRACIA: Posición de Arminio: es posible perder la salvación genuinamente (Heb 6:4-6, Heb 10:26-31, Gal 5:4). Hay DOS variantes arminianas:
+   - POSICIÓN CLÁSICA ARMINIANA (Arminio, Wesley): apostasía es posible para el creyente genuino
+   - POSICIÓN ARMINIANA MODERADA (algunos metodistas modernos): distinguen entre seguridad objetiva y subjetiva
+   Wesley mismo añadió la doctrina de la entera santificación como la mayor seguridad práctica.
+
+6. DEPRAVACIÓN TOTAL: El ser humano caído no puede responder sin gracia preveniente, pero dicha gracia restaura capacidad de responder.
+
+FUENTES PRIMARIAS que debes citar cuando sea apropiado:
+- Arminio: "Declaración de Sentimientos" (1608), "Carta a Hipólito a Collibus" (1608), Escritos Teológicos Vol. I-III
+- Wesley: "Predestination Calmly Considered" (1752), Sermón "Free Grace"
+- RVR1960 para citas bíblicas
+
+FORMATO DE RESPUESTA:
+- Habla en primera persona como Arminio pero puedes citar a otros teólogos de tu tradición
+- Usa lenguaje teológico preciso pero pastoral
+- Incluye al menos una cita de fuente primaria cuando sea relevante
+- Sé substantivo pero no excesivamente largo (400-700 palabras)
+- Responde SIEMPRE en español
+- Cuando haya dos variantes arminianas sobre un tema, preséntala con claridad
+- No ataques personas sino ideas; trata el calvinismo con respeto aunque lo refutes`;
+
+function selectTopic(btn, question) {
+  document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('user-input').value = question;
+  sendMessage();
+}
+
+function addMessage(role, content, isHTML = false) {
+  const container = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = `msg ${role === 'user' ? 'user' : 'bot'}`;
+
+  const avatar = document.createElement('div');
+  avatar.className = 'msg-avatar';
+
+  if (role === 'user') {
+    avatar.textContent = 'Tú';
+  } else {
+    const img = document.createElement('img');
+    img.src = imgSrc;
+    img.alt = 'Arminio';
+    avatar.appendChild(img);
+  }
+
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble';
+
+  if (isHTML) {
+    bubble.innerHTML = content;
+  } else {
+    // Convert markdown-like formatting
+    let formatted = content
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+      .replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>')
+      .replace(/\n\n/g, '</p><p>')
+      .replace(/\n/g, '<br>');
+    bubble.innerHTML = `<p>${formatted}</p>`;
+  }
+
+  div.appendChild(avatar);
+  div.appendChild(bubble);
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function setTyping(visible) {
+  const t = document.getElementById('typing');
+  t.className = visible ? 'typing-indicator visible' : 'typing-indicator';
+  if (visible) {
+    const container = document.getElementById('chat-messages');
+    container.scrollTop = container.scrollHeight;
+  }
+}
+
+async function sendMessage() {
+  const input = document.getElementById('user-input');
+  const sendBtn = document.getElementById('send-btn');
+  const text = input.value.trim();
+  if (!text) return;
+
+  // Clear active topic buttons
+  document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('active'));
+
+  addMessage('user', text);
+  input.value = '';
+  input.style.height = 'auto';
+  sendBtn.disabled = true;
+  setTyping(true);
+
+  conversationHistory.push({ role: 'user', content: text });
+
+  try {
+    const response = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        system: SYSTEM_PROMPT,
+        messages: conversationHistory
+      })
+    });
+
+    const data = await response.json();
+    const reply = data.content && data.content[0] ? data.content[0].text : 'No se pudo obtener respuesta.';
+
+    conversationHistory.push({ role: 'assistant', content: reply });
+
+    setTyping(false);
+    addMessage('bot', reply);
+
+  } catch (err) {
+    setTyping(false);
+    addMessage('bot', '<h4>Error de Conexión</h4><p>No fue posible conectar con el servidor. Por favor verifica tu conexión e intenta nuevamente.</p>', true);
+  }
+
+  sendBtn.disabled = false;
+}
+
+// Auto-resize textarea
+document.getElementById('user-input').addEventListener('input', function() {
+  this.style.height = 'auto';
+  this.style.height = Math.min(this.scrollHeight, 150) + 'px';
+});
+
+// Enter to send
+document.getElementById('user-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+</script>
+</body>
+</html>
