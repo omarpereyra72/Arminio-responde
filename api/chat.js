@@ -38,7 +38,7 @@ export default async function handler(req) {
       'X-Title': 'Los Hermanos de Arminio'
     },
     body: JSON.stringify({
-      model: 'meta-llama/llama-4-maverick:free',
+      model: 'mistralai/mistral-7b-instruct:free',
       messages: allMessages,
       max_tokens: 1000
     })
